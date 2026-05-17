@@ -294,7 +294,10 @@ export default function SurveyPage() {
   const handleNext = () => {
     setError("");
     const err = step === 1 ? validateStep1() : step === 2 ? validateStep2() : "";
-    if (err) { setError(err); return; }
+    if (err) {
+      setError(err);
+      return;
+    }
     setStep((s) => (s + 1) as Step);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -309,7 +312,10 @@ export default function SurveyPage() {
     e.preventDefault();
     setError("");
     const err = validateStep3();
-    if (err) { setError(err); return; }
+    if (err) {
+      setError(err);
+      return;
+    }
 
     setLoading(true);
 
@@ -344,8 +350,7 @@ export default function SurveyPage() {
       if (res.ok) {
         router.push("/marketplace");
       } else {
-        const data = await res.json();
-        setError(data.error ?? "Submission failed.");
+        setError("Submission failed. Please try again.");
       }
     } catch {
       setError("Network error. Please try again.");
@@ -368,32 +373,34 @@ export default function SurveyPage() {
       </header>
 
       <main className="relative z-10 max-w-3xl mx-auto px-6 py-12">
-        {/* Unified Header Design for All Steps */}
-        <div className="mb-10">
-          <div className="inline-flex items-center gap-2 bg-white/90 border border-black px-4 py-2 mb-6 backdrop-blur-sm">
-            <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
-            <span className="text-emerald-700 text-xs font-black uppercase tracking-widest">
-              {step === 1 ? "Registration" : "Youth Engagement Survey"}
-            </span>
+        {/* Step 1 Header - Registration Only */}
+        {step === 1 && (
+          <div className="mb-10">
+            <h1 className="text-4xl font-black text-black uppercase tracking-tight">Registration</h1>
           </div>
+        )}
 
-          <h1 className="text-4xl font-black text-black uppercase tracking-tight leading-tight mb-3">
-            Your Voice <span className="text-emerald-600">Matters</span>
-          </h1>
-
-          <p className="text-black/80 text-[15px] leading-relaxed max-w-2xl">
-            {step === 1
-              ? "Please fill in your personal information to begin the survey."
-              : "Help shape the future of youth development in Nigeria. Your responses are confidential and will directly inform ministry programs."
-            }
-          </p>
-        </div>
+        {/* Step 2 & 3 Header - Youth Engagement Survey */}
+        {(step === 2 || step === 3) && (
+          <div className="mb-10">
+            <div className="inline-flex items-center gap-2 bg-white/90 border border-black px-4 py-2 mb-6 backdrop-blur-sm">
+              <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
+              <span className="text-emerald-700 text-xs font-black uppercase tracking-widest">Youth Engagement Survey</span>
+            </div>
+            <h1 className="text-4xl font-black text-black uppercase tracking-tight leading-tight mb-3">
+              Your Voice <span className="text-emerald-600">Matters</span>
+            </h1>
+            <p className="text-black/80 text-[15px] leading-relaxed">
+              Help shape the future of youth development in Nigeria. Your responses are confidential and will directly inform ministry programs.
+            </p>
+          </div>
+        )}
 
         <ProgressBar step={step} />
 
         <div className="bg-white border border-black p-8 sm:p-10 relative z-10">
 
-          {/* STEP 1 - REGISTRATION */}
+          {/* ==================== STEP 1: REGISTRATION ==================== */}
           {step === 1 && (
             <div className="space-y-6">
               <div className="pb-6 border-b border-black/10">
@@ -449,12 +456,12 @@ export default function SurveyPage() {
             </div>
           )}
 
-          {/* STEP 2 - MINISTRY FEEDBACK */}
+          {/* ==================== STEP 2: SURVEY ==================== */}
           {step === 2 && (
             <div className="space-y-8">
               <div>
                 <Label required>What do you feel about the Ministry?</Label>
-                <Textarea rows={4} value={ministryFeelings} onChange={(e) => setMinistryFeelings(e.target.value)} placeholder="Share your honest thoughts..." />
+                <Textarea rows={4} value={ministryFeelings} onChange={(e) => setMinistryFeelings(e.target.value)} placeholder="Share your honest thoughts and feelings about the Ministry of Youth Development…" />
               </div>
 
               <div>
@@ -471,13 +478,19 @@ export default function SurveyPage() {
                 <Label required>Do you believe current youth programs are creating enough opportunities for young people?</Label>
                 <div className="flex flex-wrap gap-2 mb-3">
                   {["Yes", "No", "Other"].map((opt) => (
-                    <label key={opt} className={`flex items-center gap-2 px-5 py-3 border cursor-pointer transition-all text-sm font-medium ${opportunitiesOpinion === opt ? "border-emerald-600 bg-emerald-50 text-emerald-700" : "border-black/70 hover:border-black text-black"}`}>
+                    <label
+                      key={opt}
+                      className={`flex items-center gap-2 px-5 py-3 border cursor-pointer transition-all text-sm font-medium
+                        ${opportunitiesOpinion === opt ? "border-emerald-600 bg-emerald-50 text-emerald-700" : "border-black/70 hover:border-black text-black"}`}
+                    >
                       <input type="radio" name="opportunities" value={opt} checked={opportunitiesOpinion === opt} onChange={() => setOpportunitiesOpinion(opt)} className="sr-only" />
                       {opt}
                     </label>
                   ))}
                 </div>
-                {opportunitiesOpinion === "Other" && <Input value={opportunitiesOther} onChange={(e) => setOpportunitiesOther(e.target.value)} placeholder="Please specify..." />}
+                {opportunitiesOpinion === "Other" && (
+                  <Input value={opportunitiesOther} onChange={(e) => setOpportunitiesOther(e.target.value)} placeholder="Please specify..." />
+                )}
               </div>
 
               <div>
@@ -487,9 +500,13 @@ export default function SurveyPage() {
             </div>
           )}
 
-          {/* STEP 3 - YOUTH PROGRAMS */}
+          {/* ==================== STEP 3: YOUTH PROGRAMS ==================== */}
           {step === 3 && (
             <form onSubmit={handleSubmit}>
+              <div className="pb-6 border-b border-black/10 mb-8">
+                <h2 className="text-2xl font-black uppercase tracking-tight">Youth Programs</h2>
+              </div>
+
               <div className="space-y-8">
                 <div>
                   <Label required>What challenges do young people currently face the most in Nigeria? <span className="text-black/60">(Select up to 3)</span></Label>
@@ -498,17 +515,25 @@ export default function SurveyPage() {
 
                 <div>
                   <Label required>What additional support would you like to see from the Ministry of Youth Development?</Label>
-                  <Textarea rows={3} value={additionalSupport} onChange={(e) => setAdditionalSupport(e.target.value)} placeholder="e.g. More funding, better mentorship..." />
+                  <Textarea rows={3} value={additionalSupport} onChange={(e) => setAdditionalSupport(e.target.value)} placeholder="e.g. More funding, better mentorship programs, rural outreach…" />
                 </div>
 
                 <div>
                   <Label required>Which Ministry of Youth Development initiative would you most like to see expanded?</Label>
-                  <Input value={initiativeExpand} onChange={(e) => setInitiativeExpand(e.target.value)} placeholder="e.g. N-Power, NYSC..." />
+                  <Input value={initiativeExpand} onChange={(e) => setInitiativeExpand(e.target.value)} placeholder="e.g. N-Power, NYSC, Youth Enterprise…" />
                 </div>
 
                 <div>
                   <Label required>Would you participate in future Ministry of Youth Development programs?</Label>
-                  <RadioGroup name="participate" value={wouldParticipate} onChange={setWouldParticipate} options={[{ value: "Yes", label: "Yes" }, { value: "No", label: "No" }]} />
+                  <RadioGroup
+                    name="participate"
+                    value={wouldParticipate}
+                    onChange={setWouldParticipate}
+                    options={[
+                      { value: "Yes", label: "Yes" },
+                      { value: "No", label: "No" },
+                    ]}
+                  />
                 </div>
 
                 <div>
@@ -518,7 +543,7 @@ export default function SurveyPage() {
 
                 <div>
                   <Label required>Additional comments or suggestions</Label>
-                  <Textarea rows={5} value={comments} onChange={(e) => setComments(e.target.value)} placeholder="Any other thoughts..." />
+                  <Textarea rows={5} value={comments} onChange={(e) => setComments(e.target.value)} placeholder="Any other thoughts you'd like to share..." />
                 </div>
               </div>
             </form>
@@ -531,7 +556,7 @@ export default function SurveyPage() {
             </div>
           )}
 
-          {/* Navigation */}
+          {/* Navigation Buttons */}
           <div className="flex gap-4 mt-10">
             {step > 1 && (
               <button
@@ -549,7 +574,7 @@ export default function SurveyPage() {
                 onClick={handleNext}
                 className="flex-1 bg-emerald-600 hover:bg-emerald-700 py-4 text-white font-bold transition-all"
               >
-                Continue →
+                {step === 1 ? "Submit & Proceed to Survey" : "Submit & Proceed to the Hub"}
               </button>
             ) : (
               <button
@@ -558,7 +583,7 @@ export default function SurveyPage() {
                 disabled={loading}
                 className="flex-1 bg-emerald-600 hover:bg-emerald-700 py-4 text-white font-bold transition-all disabled:opacity-70"
               >
-                {loading ? "Submitting..." : "Submit Survey →"}
+                {loading ? "Submitting..." : "Submit Survey"}
               </button>
             )}
           </div>
