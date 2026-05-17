@@ -21,12 +21,12 @@ export const metadata: Metadata = {
   description:
     "Share your thoughts and help shape youth development programs in Nigeria. Your voice matters.",
   icons: {
-    icon: "/fmyd.png",
+    icon: "/public/fmyd.png",
   },
   openGraph: {
     title: "Youth Voice Survey - Ministry of Youth Development",
     description: "Help shape the future of youth development in Nigeria.",
-    images: [{ url: "/og-image.jpg" }],
+    images: [{ url: "/public/fmyd.png" }],
   },
 };
 

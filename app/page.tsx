@@ -355,7 +355,7 @@ export default function SurveyPage() {
         <div className="max-w-3xl mx-auto px-6 py-5 flex items-center gap-4">
         
           <img 
-            src="/fmyd.png" 
+            src="/public/fmyd.png" 
             alt="FMYD Logo" 
             className="h-16 w-auto" 
           /> 
