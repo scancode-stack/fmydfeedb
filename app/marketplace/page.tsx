@@ -50,16 +50,16 @@ const products: Product[] = [
     id: 1,
     name: 'Samsung Galaxy A35 5G',
     price: 185000,
-    image: '/images/phone1.png',
-    category: 'Phones',
+    image: '/1.jpeg',
+    category: 'Research',
     description:
-      'Premium Samsung smartphone with AMOLED display, excellent battery life and strong performance.',
+      '',
   },
   {
     id: 2,
     name: 'Nike Air Force 1',
     price: 45000,
-    image: '/images/shoe1.png',
+    image: '/12.jpeg',
     category: 'Fashion',
     description:
       'Classic premium white sneakers with comfort and long-lasting durability.',
@@ -68,20 +68,12 @@ const products: Product[] = [
     id: 3,
     name: 'LG 43 Smart TV',
     price: 285000,
-    image: '/images/tv1.png',
-    category: 'Electronics',
+    image: '/13.jpeg',
+    category: 'Thriller',
     description:
       '4K UHD Smart Television with vibrant display and smart connectivity.',
   },
-  {
-    id: 4,
-    name: 'Infinix Hot 40i',
-    price: 95000,
-    image: '/images/phone2.png',
-    category: 'Phones',
-    description:
-      'Affordable smartphone with strong battery life and excellent camera quality.',
-  },
+  
 ];
 
 export default function MarketplacePage() {
