@@ -629,14 +629,14 @@ export default function SurveyPage() {
                 Continue →
               </button>
             ) : (
-              <button
-                type="button"
-                disabled={loading}
-                onClick={handleSubmit as any}
-                className="flex-1 bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-black text-xs font-black uppercase tracking-widest py-4 transition-all duration-200"
-              >
-                {loading ? "Submitting…" : "Submit & Enter Marketplace →"}
-              </button>
+             <button 
+  type="button" 
+  onClick={() => window.location.href = '/pre'} 
+  className="flex-1 bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-black uppercase tracking-widest py-4 transition-all duration-200"
+>
+  Submit →
+</button>
+
             )}
           </div>
         </div>
