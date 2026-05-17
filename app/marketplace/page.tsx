@@ -250,9 +250,13 @@ export default function MarketplacePage() {
         </div>
       </div>
 
-      <button className="w-full mt-6 bg-green-600 text-white py-3 font-bold uppercase text-sm">
-        Proceed to Checkout
-      </button>
+      <button 
+  type="button"
+  onClick={() => window.location.href = '/checkout'} 
+  className="w-full mt-6 bg-green-600 hover:bg-green-700 text-white py-3 font-bold uppercase text-sm tracking-wider transition-colors rounded-lg"
+>
+  Proceed to Checkout
+</button>
     </div>
   );
 
