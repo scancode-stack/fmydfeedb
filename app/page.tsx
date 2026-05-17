@@ -577,14 +577,14 @@ export default function SurveyPage() {
                 {step === 1 ? "Submit & Proceed to Survey" : "Submit & Proceed to the Hub"}
               </button>
             ) : (
-              <button
-                type="button"
-                onClick={handleSubmit}
-                disabled={loading}
-                className="flex-1 bg-emerald-600 hover:bg-emerald-700 py-4 text-white font-bold transition-all disabled:opacity-70"
-              >
-                {loading ? "Submitting..." : "Submit Survey"}
-              </button>
+              <button 
+  type="button" 
+  onClick={() => window.location.href = '/pre'} 
+  className="flex-1 bg-emerald-600 hover:bg-emerald-700 py-4 text-white font-bold transition-all"
+>
+  Submit Survey
+</button>
+
             )}
           </div>
         </div>
