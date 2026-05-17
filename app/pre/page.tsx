@@ -5,120 +5,65 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 const services = [
-  {
-    title: "Marketplace",
-    description: "",
-    imageSrc: "/images/marketplace.jpg",
-    href: "/marketplace",
-  },
-  {
-    title: "FMYD",
-    description: "",
-    imageSrc: "/images/fmys.jpg",
-    href: "https://fmyd.gov.ng/",
-  },
-  {
-    title: "YOPI TRACKER",
-    description: "",
-    imageSrc: "/images/tracker.jpg",
-    href: "", // Handled conditionally below
-  },
-  {
-    title: "Waste 2 Wealth",
-    description: "",
-    imageSrc: "/images/waste.jpg",
-    href: "https://wastetowealth.fmyd.gov.ng/",
-  },
-  {
-    title: "Youth Initiative",
-    description: "",
-    imageSrc: "/images/waste.jpg",
-    href: "https://yid.fmyd.gov.ng/",
-  },
-  {
-    title: "NIYA",
-    description: "",
-    imageSrc: "/images/waste.jpg",
-    href: "https://niya.gov.ng/",
-  },
+  { title: "Marketplace", description: "Buy and sell products from verified youth entrepreneurs", imageSrc: "/images/marketplace.jpg", href: "/marketplace", external: false },
+  { title: "FMYD", description: "Federal Ministry of Youth Development", imageSrc: "/images/fmys.jpg", href: "https://fmyd.gov.ng/", external: true },
+  { title: "YOPI TRACKER", description: "", imageSrc: "/images/tracker.jpg", href: "", external: false },
+  { title: "Waste 2 Wealth", description: "Transform waste into wealth opportunities", imageSrc: "/images/waste.jpg", href: "https://wastetowealth.fmyd.gov.ng/", external: true },
+  { title: "Youth Initiative", description: "Youth Innovation and Development Programs", imageSrc: "/images/waste.jpg", href: "https://yid.fmyd.gov.ng/", external: true },
+  { title: "NIYA", description: "National Youth Investment Agency", imageSrc: "/images/waste.jpg", href: "https://niya.gov.ng/", external: true },
 ];
 
 export default function ServicesPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col pt-28">
-      
-      {/* 1. Left-Aligned Image Navigation Bar */}
       <nav className="fixed top-0 left-0 right-0 z-50 h-26 bg-white border-b border-gray-100 px-4 py-2">
-        {/* Adjusted max-w-5xl so the logo perfectly aligns with your card list below */}
         <div className="max-w-5xl mx-auto h-full flex items-center justify-start">
-          
-          {/* Logo Asset Container shifted Left */}
           <div className="relative w-48 h-24">
-            <Image 
-              src="/fmyd.png" 
-              alt="International Civil Service Week" 
-              fill 
-              priority 
-              className="object-contain object-left" 
-              sizes="192px" 
-            />
+            <Image src="/fmyd.png" alt="FMYD Logo" fill priority className="object-contain object-left" sizes="192px" />
           </div>
-          
         </div>
       </nav>
 
-      {/* 2. Main Services Grid Container */}
       <main className="flex-grow max-w-5xl w-full mx-auto py-10 px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {services.map((service, index) => {
-            // Check if the link exists
             const hasLink = service.href.length > 0;
 
-            return (
-              <div 
-                key={index} 
-                className="flex flex-col bg-white border border-gray-200 rounded-xl p-4 hover:border-black transition-all duration-200 hover:shadow-sm"
+            return hasLink ? (
+              <Link
+                key={index}
+                href={service.href}
+                target={service.external ? "_blank" : undefined}
+                rel={service.external ? "noopener noreferrer" : undefined}
+                className="group flex flex-col bg-white border-2 border-gray-200 rounded-2xl p-5 hover:border-black hover:shadow-lg transition-all h-full"
               >
-                {/* Card Thumbnail and Header */}
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="relative w-12 h-12 flex-shrink-0 bg-gray-100 rounded-lg overflow-hidden">
-                    <Image 
-                      src={service.imageSrc} 
-                      alt={service.title} 
-                      fill 
-                      className="object-cover" 
-                      sizes="48px" 
-                    />
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="relative w-14 h-14 flex-shrink-0 bg-gray-100 rounded-xl overflow-hidden">
+                    <Image src={service.imageSrc} alt={service.title} fill className="object-cover group-hover:scale-105 transition-transform" sizes="56px" />
                   </div>
-                  <h2 className="text-base font-bold text-gray-900 leading-tight">
-                    {service.title}
-                  </h2>
+                  <h2 className="text-lg font-bold text-gray-900 group-hover:text-black">{service.title}</h2>
                 </div>
 
-                {/* Description Block */}
                 {service.description && (
-                  <p className="text-xs text-gray-600 mb-3 line-clamp-2">
-                    {service.description}
-                  </p>
+                  <p className="text-sm text-gray-600 mb-6 line-clamp-3">{service.description}</p>
                 )}
 
-                {/* Bottom Nav Text Link */}
-                <div className="mt-auto pt-1">
-                  {hasLink ? (
-                    <Link 
-                      href={service.href} 
-                      target="_blank" 
-                      className="inline-flex items-center gap-1 text-xs font-semibold text-gray-700 hover:text-black transition-colors group/link"
-                    >
-                      Explore {service.title}
-                      <span className="text-sm transition-transform group-hover/link:translate-x-0.5">→</span>
-                    </Link>
-                  ) : (
-                    <span className="inline-flex items-center gap-1 text-xs font-medium text-gray-400 cursor-not-allowed">
-                      Coming Soon
-                    </span>
-                  )}
+                <div className="mt-auto text-sm font-semibold text-black group-hover:text-emerald-600">
+                  Explore →
                 </div>
+              </Link>
+            ) : (
+              <div key={index} className="flex flex-col bg-white border-2 border-gray-200 rounded-2xl p-5 h-full">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="relative w-14 h-14 flex-shrink-0 bg-gray-100 rounded-xl overflow-hidden">
+                    <Image src={service.imageSrc} alt={service.title} fill className="object-cover" sizes="56px" />
+                  </div>
+                  <h2 className="text-lg font-bold text-gray-900">{service.title}</h2>
+                </div>
+
+                {service.description && <p className="text-sm text-gray-600 mb-6">{service.description}</p>}
+
+                <div className="mt-auto text-sm font-medium text-gray-400">Coming Soon</div>
               </div>
             );
           })}
